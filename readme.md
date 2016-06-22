@@ -9,9 +9,9 @@ the end of the list is reached or another run length vector is encountered.
 
 For example :
 
-    ``` r
-    rle.list <- list(rle.vector1, v1, v2, ..., rle.vector2, v3, v4, ...)
-    ```
+``` r
+rle.list <- list(rle.vector1, v1, v2, ..., rle.vector2, v3, v4, ...)
+```
 
 In the above example the run length vector *rle.vector* is applied to vectors v1
 and v2, while *rle.vector2* is applied to v3 and v4.
