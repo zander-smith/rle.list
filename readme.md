@@ -18,4 +18,4 @@ and v2, while *rle.vector2* is applied to v3 and v4.
 
 Merging datasets with one to many relationships results in many repeated contributions
 from the first dataset. Rle.list attempts to eliminate such duplication by creating
-a shared run length vectors which is applied to subsequent column vectors.
+shared run length vectors which are applied to subsequent column vectors.
