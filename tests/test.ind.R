@@ -1,4 +1,4 @@
-rm(list=ls())
+rm(list=ls()[!(ls() %in% c("index.merge"))])
 i1 <- c(1,2,2,3,4)
 v1 <- c("a","b","c","d","e")
 v2 <- c("q","w","e","r","t")
@@ -22,4 +22,32 @@ i2 <- "i2"
 # sorted1 <- F
 # sorted2 <- F
 
-(my.ind.list <- ind.merge(l1,i1,l2,i2))
+(my.index.list <- index.merge(l1,i1,l2,i2))
+
+class(my.index.list)
+
+(my.df <- as.data.frame(my.index.list))
+
+class(my.df)
+
+my.index.list[9]
+
+my.index.list[9] <- 2
+
+my.index.list[[1]][9] <- 3
+
+a <- 1
+b <- 2
+c <- 3
+
+(l <- list(a))
+(l <- c(l,b))
+(l <- c(l,c))
+
+
+v <- c("a","b","c")
+n <- c(1,2,3)
+rep(v,n)
+
+my.index.list[[3]][my.index.list[[2]]]
+

@@ -1,6 +1,6 @@
 # index merge for many-to-many merge
 
-ind.merge <- function(l1,i1,l2,i2=i1,sorted1=F,sorted2=F) {
+index.merge <- function(l1,i1,l2,i2=i1,sorted1=F,sorted2=F) {
   require(data.table)
   # if (is.null(i2)) { i2 <- i1 }
   if (!(i1 %in% names(l1)) | !(i2 %in% names(l2))) { return(NULL) }
@@ -16,12 +16,33 @@ ind.merge <- function(l1,i1,l2,i2=i1,sorted1=F,sorted2=F) {
   }
   ind1 <- 1:length(l1[[i1]])
   ind2 <- 1:length(l2[[i2]])
-  li1 <- data.frame(i=l1[[i1]],ind1=ind1)
-  li2 <- data.frame(i=l2[[i2]],ind2=ind2)
+  li1 <- data.table(i=l1[[i1]],ind1=ind1)
+  li2 <- data.table(i=l2[[i2]],ind2=ind2)
   li3 <- merge(li1,li2,by="i")
   
-  l3 <- c(index=list(li3$i),ind=list(li3$ind1),l1[names(l1)!=i1],ind=list(li3$ind2),l2[names(l2)!=i2])
-  attr(l3,"class") <- "ind.list"
+  l3 <- c(key=list(li3$i),index=list(li3$ind1),l1[names(l1)!=i1],index=list(li3$ind2),l2[names(l2)!=i2])
+  attr(l3,"class") <- "index.list"
   names(l3)[1] <- i1
   l3
 }
+
+'[.index.list' <- function(x, i) {
+  x[[1]][i]
+}
+
+'[<-.index.list' <- function(x, i, value) {
+  x[[1]] <- '[<-'(x[[1]],i,value)
+  x
+}
+
+as.data.frame.index.list <- function(x, ...) {
+  res <- x[1]
+  for (i in 2:length(x)) {
+    if (names(x)[i]=="index") index <- i else res <- c(res,list(x[[i]][x[[index]]]))
+  }
+  class(res) <- "data.frame"; attr(res, "row.names") <- .set_row_names(length(res[[1]]))
+  names(res) <- names(x)[names(x) != "index"]
+  res
+}
+
+
